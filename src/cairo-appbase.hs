@@ -1,13 +1,16 @@
 --
+-- Based on Gtk2Hs/demo/cairo/Drawing2.hs 
 -- Author: Johan Bockgård <bojohan@dd.chalmers.se>
 --
 -- This code is in the public domain.
 --
 
 import qualified Graphics.UI.Gtk as G
+import qualified Graphics.UI.Gtk.Glade as Glade
 import qualified Graphics.Rendering.Cairo as C
 import qualified Graphics.Rendering.Cairo.Matrix as M
 
+import Paths_cairo_appbase as My
 
 windowWidth, windowHeight :: Int
 windowWidth   = 500
@@ -25,8 +28,18 @@ writePng =
 -- Display image in window
 main = do
   G.initGUI
-  window <- G.windowNew
-  canvas <- G.drawingAreaNew
+
+  -- load up the glade file
+  filename <- My.getDataFileName "data/main.glade"
+  dialogXmlM <- Glade.xmlNew filename
+  let dialogXml = case dialogXmlM of
+        (Just dX) -> dX
+        Nothing -> error ("can't find the glade file " ++ filename)
+
+  -- get a handle on a couple widgets from the glade file
+  window <- Glade.xmlGetWidget dialogXml G.castToWindow "window1"
+  canvas <- Glade.xmlGetWidget dialogXml G.castToDrawingArea "drawingarea1"
+
   -- fix size
   --   G.windowSetResizable window False
   G.widgetSetSizeRequest window windowWidth windowHeight
@@ -34,7 +47,6 @@ main = do
   G.onKeyPress window $ const (do G.widgetDestroy window; return True)
   G.onDestroy window G.mainQuit
   G.onExpose canvas $ const (updateCanvas canvas)
-  G.set window [G.containerChild G.:= canvas]
   G.widgetShowAll window
   G.mainGUI
 
