@@ -1,23 +1,11 @@
 
-PROGS  = drawing drawing2 starandring text clock
-SOURCES = Drawing.hs Drawing2.hs StarAndRing.hs Text.hs Clock.hs
+PROGS  = drawing2
+SOURCES = Drawing2.hs
 PACKAGES = gtk cairo
 
 all : $(PROGS)
 
-drawing : Drawing.hs
-	$(HC_RULE)
-
 drawing2 : Drawing2.hs
-	$(HC_RULE)
-
-starandring : StarAndRing.hs
-	$(HC_RULE)
-
-text : Text.hs
-	$(HC_RULE)
-
-clock : Clock.hs
 	$(HC_RULE)
 
 HC_RULE = $(HC) --make $< -o $@ $(HCFLAGS) $(HCEXTRAFLAGS)
