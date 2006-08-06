@@ -1,0 +1,13 @@
+Name:                cairo-appbase
+Version:             0.1
+Description:         Base code for an application using Cairo graphics
+License:             BSD3
+License-file:        LICENSE
+Author:              Conrad Parker
+Maintainer:          conradp@cse.unsw.edu.au
+Build-Depends:       base, gtk, cairo
+
+Executable:          cairo-appbase
+Main-Is:             cairo-appbase.hs
+Hs-Source-Dirs:      src
+ghc-options:         -Wall -fglasgow-exts -O2 -funbox-strict-fields 
