@@ -36,15 +36,17 @@ main = do
         (Just dX) -> dX
         Nothing -> error ("can't find the glade file " ++ filename)
 
-  -- get a handle on a couple widgets from the glade file
+  -- get a handle on widgets from the glade file
   window <- Glade.xmlGetWidget dialogXml G.castToWindow "window1"
   canvas <- Glade.xmlGetWidget dialogXml G.castToDrawingArea "drawingarea1"
+  quit1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "quit1"
 
   -- fix size
   --   G.windowSetResizable window False
   G.widgetSetSizeRequest window windowWidth windowHeight
-  -- press any key to quit
-  G.onKeyPress window $ const (do G.widgetDestroy window; return True)
+
+  -- quit on File->Quit menu selection
+  G.onActivateLeaf quit1 $ G.widgetDestroy window
   G.onDestroy window G.mainQuit
   G.onExpose canvas $ const (updateCanvas canvas)
   G.widgetShowAll window
