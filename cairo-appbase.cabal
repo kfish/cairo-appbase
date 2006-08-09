@@ -6,7 +6,7 @@ License:             BSD3
 License-file:        LICENSE
 Author:              Conrad Parker
 Maintainer:          conradp@cse.unsw.edu.au
-Build-Depends:       base, gtk, glade, cairo
+Build-Depends:       base, glib, gtk, glade, cairo
 Data-Files:          data/main.glade
 
 Executable:          cairo-appbase

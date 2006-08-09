@@ -5,6 +5,7 @@
 -- This code is in the public domain.
 --
 
+import qualified System.Glib.Types as GTypes
 import qualified Graphics.UI.Gtk as G
 import qualified Graphics.UI.Gtk.Glade as Glade
 import qualified Graphics.Rendering.Cairo as C
@@ -31,23 +32,25 @@ main = do
 
   -- load up the glade file
   filename <- My.getDataFileName "data/main.glade"
-  dialogXmlM <- Glade.xmlNew filename
-  let dialogXml = case dialogXmlM of
-        (Just dX) -> dX
+  windowXmlM <- Glade.xmlNew filename
+  let windowXml = case windowXmlM of
+        (Just wX) -> wX
         Nothing -> error ("can't find the glade file " ++ filename)
+      get :: (G.WidgetClass widget) => (GTypes.GObject -> widget) -> String -> IO widget
+      get = Glade.xmlGetWidget windowXml
 
   -- get a handle on widgets from the glade file
-  window <- Glade.xmlGetWidget dialogXml G.castToWindow "window1"
-  canvas <- Glade.xmlGetWidget dialogXml G.castToDrawingArea "drawingarea1"
-  quit1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "quit1"
+  window <- get G.castToWindow "window1"
 
-  open1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "open1"
-  openDialog <- Glade.xmlGetWidget dialogXml G.castToFileChooserDialog "opendialog"
+  -- set up the File->Open dialog
+  open1 <- get G.castToMenuItem "open1"
+  openDialog <- get G.castToFileChooserDialog "opendialog"
   G.onActivateLeaf open1 $ G.widgetShow openDialog
   G.onResponse openDialog $ myFileOpen openDialog
 
-  about1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "about1"
-  aboutdialog1 <- Glade.xmlGetWidget dialogXml G.castToAboutDialog "aboutdialog1"
+  -- set up the Help->About dialog
+  about1 <- get G.castToMenuItem "about1"
+  aboutdialog1 <- get G.castToAboutDialog "aboutdialog1"
   G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
 
   -- fix size
@@ -55,13 +58,17 @@ main = do
   G.widgetSetSizeRequest window windowWidth windowHeight
 
   -- quit on File->Quit menu selection
+  quit1 <- get G.castToMenuItem "quit1"
   G.onActivateLeaf quit1 $ G.widgetDestroy window
   G.onDestroy window G.mainQuit
 
+  -- set up the canvas
+  canvas <- get G.castToDrawingArea "drawingarea1"
   G.onExpose canvas $ const (updateCanvas canvas)
   G.widgetShowAll window
   G.mainGUI
 
+myFileOpen :: G.FileChooserDialog -> G.ResponseId -> IO ()
 myFileOpen fcdialog response = do
   case response of
     G.ResponseOk -> do Just filename <- G.fileChooserGetFilename fcdialog
