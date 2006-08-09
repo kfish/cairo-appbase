@@ -41,6 +41,11 @@ main = do
   canvas <- Glade.xmlGetWidget dialogXml G.castToDrawingArea "drawingarea1"
   quit1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "quit1"
 
+  open1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "open1"
+  openDialog <- Glade.xmlGetWidget dialogXml G.castToFileChooserDialog "opendialog"
+  G.onActivateLeaf open1 $ G.widgetShow openDialog
+  G.onResponse openDialog $ myFileOpen openDialog
+
   about1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "about1"
   aboutdialog1 <- Glade.xmlGetWidget dialogXml G.castToAboutDialog "aboutdialog1"
   G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
@@ -56,6 +61,15 @@ main = do
   G.onExpose canvas $ const (updateCanvas canvas)
   G.widgetShowAll window
   G.mainGUI
+
+myFileOpen fcdialog response = do
+  case response of
+    G.ResponseOk -> do Just filename <- G.fileChooserGetFilename fcdialog
+                       putStrLn filename
+    G.ResponseCancel -> putStrLn "Cancelled!"
+    G.ResponseDeleteEvent -> putStrLn "FileChooserDialog Deleted!"
+    G.ResponseClose -> putStrLn "Closed!"
+  G.widgetHide fcdialog
 
 updateCanvas :: G.DrawingArea -> IO Bool
 updateCanvas canvas = do
