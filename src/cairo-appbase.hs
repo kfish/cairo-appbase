@@ -48,6 +48,14 @@ main = do
   G.onActivateLeaf open1 $ G.widgetShow openDialog
   G.onResponse openDialog $ myFileOpen openDialog
 
+  -- set up the File->Save_As dialog
+  save1 <- get G.castToMenuItem "save1"
+  save_as1 <- get G.castToMenuItem "save_as1"
+  saveDialog <- get G.castToFileChooserDialog "savedialog"
+  G.onActivateLeaf save_as1 $ G.widgetShow saveDialog
+  G.onActivateLeaf save1 $ G.widgetShow saveDialog
+  G.onResponse saveDialog $ myFileSave saveDialog
+
   -- set up the Help->About dialog
   about1 <- get G.castToMenuItem "about1"
   aboutdialog1 <- get G.castToAboutDialog "aboutdialog1"
@@ -77,6 +85,9 @@ myFileOpen fcdialog response = do
     G.ResponseDeleteEvent -> putStrLn "FileChooserDialog Deleted!"
     G.ResponseClose -> putStrLn "Closed!"
   G.widgetHide fcdialog
+
+myFileSave :: G.FileChooserDialog -> G.ResponseId -> IO ()
+myFileSave = myFileOpen
 
 updateCanvas :: G.DrawingArea -> IO Bool
 updateCanvas canvas = do
