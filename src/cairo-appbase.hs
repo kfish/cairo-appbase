@@ -41,6 +41,10 @@ main = do
   canvas <- Glade.xmlGetWidget dialogXml G.castToDrawingArea "drawingarea1"
   quit1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "quit1"
 
+  about1 <- Glade.xmlGetWidget dialogXml G.castToMenuItem "about1"
+  aboutdialog1 <- Glade.xmlGetWidget dialogXml G.castToAboutDialog "aboutdialog1"
+  G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
+
   -- fix size
   --   G.windowSetResizable window False
   G.widgetSetSizeRequest window windowWidth windowHeight
@@ -48,6 +52,7 @@ main = do
   -- quit on File->Quit menu selection
   G.onActivateLeaf quit1 $ G.widgetDestroy window
   G.onDestroy window G.mainQuit
+
   G.onExpose canvas $ const (updateCanvas canvas)
   G.widgetShowAll window
   G.mainGUI
