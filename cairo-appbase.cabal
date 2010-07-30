@@ -1,12 +1,13 @@
-Cabal-Version:       >= 1.1.4
+Cabal-Version:       >= 1.6
 Name:                cairo-appbase
-Version:             0.1
+Version:             0.2
 Description:         Base code for an application using Cairo graphics
 License:             BSD3
 License-file:        LICENSE
 Author:              Conrad Parker
-Maintainer:          conradp@cse.unsw.edu.au
+Maintainer:          conrad@metadecks.org
 Build-Depends:       base, glib, gtk, glade, cairo
+Build-Type:          Simple
 Data-Files:          data/main.glade
 
 Executable:          cairo-appbase
