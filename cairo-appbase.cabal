@@ -4,7 +4,7 @@ Version:             0.2
 Description:         Base code for an application using Cairo graphics
 License:             BSD3
 License-file:        LICENSE
-Author:              Conrad Parker
+Author:              Conrad Parker, Johan Bockgård
 Maintainer:          conrad@metadecks.org
 Build-Depends:       base, glib, gtk, glade, cairo
 Build-Type:          Simple
