@@ -74,6 +74,7 @@ main = do
   about1 <- get G.castToMenuItem "about1"
   aboutdialog1 <- get G.castToAboutDialog "aboutdialog1"
   G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
+  G.onResponse aboutdialog1 $ const $ G.widgetHide aboutdialog1
 
   -- fix size
   --   G.windowSetResizable window False
