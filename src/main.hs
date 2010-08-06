@@ -1,3 +1,7 @@
+module Main where
+
+import Children
 import GUI
 
-main = guiMain
+main = later waitForChildren $ do
+    forkChild guiMain

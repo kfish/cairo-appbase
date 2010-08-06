@@ -76,7 +76,8 @@ Executable cairo-appbase
       base < 3
 
   Main-Is:             main.hs
-  Other-Modules:       GUI
+  Other-Modules:       Children
+                       GUI
   Hs-Source-Dirs:      src
   Build-Depends:       glib, gtk, cairo
 
