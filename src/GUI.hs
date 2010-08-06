@@ -11,6 +11,7 @@ module GUI (
     guiMain
 ) where
 
+import Control.Concurrent.Chan
 import Control.Monad (replicateM_)
 import qualified Graphics.UI.Gtk as G
 import qualified Graphics.Rendering.Cairo as C
@@ -33,7 +34,7 @@ _writePng =
 
 -- Display image in window
 guiMain :: IO ()
-guiMain = do
+guiMain chan = do
   _ <- G.initGUI
 
   -- load up the gtk-builder file
