@@ -1,6 +1,7 @@
 module Main where
 
 import Control.Concurrent.Chan
+import Control.Monad (when)
 
 import Children
 import GUI
@@ -13,4 +14,4 @@ main = later waitForChildren $ do
 monitor chan = do
     x <- readChan chan
     putStrLn $ "Received message: " ++ x
-    monitor chan
+    when (x /= "quit") $ monitor chan

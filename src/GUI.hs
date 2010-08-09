@@ -95,7 +95,7 @@ guiMain chan = do
 
   -- quit on File->Quit menu selection
   quit1 <- get G.castToAction "quit1"
-  _ <- G.onActionActivate quit1 $ G.widgetDestroy window
+  _ <- G.onActionActivate quit1 $ myQuit window chan
   _ <- G.onDestroy window G.mainQuit
 
   -- set up the canvas
@@ -104,6 +104,14 @@ guiMain chan = do
   G.widgetShowAll window
   G.mainGUI
 
+myQuit :: G.WidgetClass cls => cls -> Chan String -> IO ()
+myQuit window chan = do
+  G.widgetDestroy window
+  myWriteChan chan "quit"
+
+myWriteChan :: Chan String -> String -> IO ()
+myWriteChan chan s = do writeChan chan s
+                        yield
 myNew :: IO ()
 myNew = putStrLn "New"
 
