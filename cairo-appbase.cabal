@@ -1,16 +1,28 @@
-Cabal-Version:       >= 1.6
 Name:                cairo-appbase
+
 Version:             0.2
-Description:         Base code for an application using Cairo graphics
+
+Synopsis:            Base code for an application using Cairo graphics
+
 License:             BSD3
 License-file:        LICENSE
 Author:              Conrad Parker, Johan Bockgård
 Maintainer:          conrad@metadecks.org
-Build-Depends:       base, glib, gtk, glade, cairo
-Build-Type:          Simple
-Data-Files:          data/main.glade
 
-Executable:          cairo-appbase
-Main-Is:             cairo-appbase.hs
-Hs-Source-Dirs:      src
-ghc-options:         -Wall -fglasgow-exts -O2 -funbox-strict-fields 
+Cabal-Version:       >= 1.8
+Build-type:          Simple
+
+Executable cairo-appbase
+  Main-Is:             cairo-appbase.hs
+  Hs-Source-Dirs:      src
+  ghc-options:         -Wall -fglasgow-exts -O2 -funbox-strict-fields 
+  Build-Depends:       base, glib, gtk, glade, cairo
+  Build-Type:          Simple
+  Data-Files:          data/main.glade
+
+------------------------------------------------------------------------
+-- Git repo
+--
+source-repository head
+  type: git
+  location: git://github.com/kfish/cairo-appbase.git
