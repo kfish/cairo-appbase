@@ -1,3 +1,4 @@
+{-# LANGUAGE RankNTypes #-}
 {-# OPTIONS -Wall #-}
 --
 -- Based on Gtk2Hs/demo/cairo/Drawing2.hs 
@@ -7,9 +8,7 @@
 --
 
 import Control.Monad (replicateM_)
-import qualified System.Glib.Types as GTypes
 import qualified Graphics.UI.Gtk as G
-import qualified Graphics.UI.Gtk.Glade as Glade
 import qualified Graphics.Rendering.Cairo as C
 import qualified Graphics.Rendering.Cairo.Matrix as M
 
@@ -33,14 +32,20 @@ main :: IO ()
 main = do
   _ <- G.initGUI
 
-  -- load up the glade file
-  filename <- My.getDataFileName "data/main.glade"
-  windowXmlM <- Glade.xmlNew filename
+  -- load up the gtk-builder file
+  filename <- My.getDataFileName "data/main.ui"
+  builder <- G.builderNew
+  G.builderAddFromFile builder filename
+{-
   let windowXml = case windowXmlM of
         (Just wX) -> wX
         Nothing -> error ("can't find the glade file " ++ filename)
-      get :: (G.WidgetClass widget) => (GTypes.GObject -> widget) -> String -> IO widget
-      get = Glade.xmlGetWidget windowXml
+-}
+  let get :: forall cls . G.GObjectClass cls
+          => (G.GObject -> cls)
+          -> String
+          -> IO cls
+      get = G.builderGetObject builder
 
   -- get a handle on widgets from the glade file
   window <- get G.castToWindow "window1"
