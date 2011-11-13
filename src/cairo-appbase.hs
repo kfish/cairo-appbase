@@ -1,3 +1,4 @@
+{-# OPTIONS -Wall #-}
 --
 -- Based on Gtk2Hs/demo/cairo/Drawing2.hs 
 -- Author: Johan Bockgård <bojohan@dd.chalmers.se>

@@ -76,7 +76,6 @@ Executable cairo-appbase
 
   Main-Is:             cairo-appbase.hs
   Hs-Source-Dirs:      src
-  ghc-options:         -Wall -fglasgow-exts -O2 -funbox-strict-fields 
   Build-Depends:       glib, gtk, glade, cairo
 
 ------------------------------------------------------------------------
