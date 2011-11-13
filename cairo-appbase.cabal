@@ -62,7 +62,7 @@ Category:            Development
 
 Cabal-Version:       >= 1.8
 Build-type:          Simple
-Data-Files:          data/main.glade
+Data-Files:          data/main.ui
 
 flag splitBase
   description: Use the split-up base package.
@@ -77,7 +77,7 @@ Executable cairo-appbase
 
   Main-Is:             cairo-appbase.hs
   Hs-Source-Dirs:      src
-  Build-Depends:       glib, gtk, glade, cairo
+  Build-Depends:       glib, gtk, cairo
 
 ------------------------------------------------------------------------
 -- Git repo
