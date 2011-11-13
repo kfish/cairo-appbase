@@ -63,11 +63,21 @@ Cabal-Version:       >= 1.8
 Build-type:          Simple
 Data-Files:          data/main.glade
 
+flag splitBase
+  description: Use the split-up base package.
+
 Executable cairo-appbase
+  if flag(splitBase)
+    build-depends:
+      base >= 3 && < 6
+  else
+    build-depends:
+      base < 3
+
   Main-Is:             cairo-appbase.hs
   Hs-Source-Dirs:      src
   ghc-options:         -Wall -fglasgow-exts -O2 -funbox-strict-fields 
-  Build-Depends:       base, glib, gtk, glade, cairo
+  Build-Depends:       glib, gtk, glade, cairo
 
 ------------------------------------------------------------------------
 -- Git repo
