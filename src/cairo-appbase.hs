@@ -18,8 +18,8 @@ windowWidth   = 500
 windowHeight  = 500
 
 -- Write image to file
-writePng :: IO ()
-writePng =
+_writePng :: IO ()
+_writePng =
   C.withImageSurface C.FormatARGB32 width height $ \ result -> do
       C.renderWith result $ example width height
       C.surfaceWriteToPNG result "Draw.png"
