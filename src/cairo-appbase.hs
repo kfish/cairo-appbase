@@ -5,6 +5,7 @@
 -- This code is in the public domain.
 --
 
+import Control.Monad (replicateM_)
 import qualified System.Glib.Types as GTypes
 import qualified Graphics.UI.Gtk as G
 import qualified Graphics.UI.Gtk.Glade as Glade
@@ -221,9 +222,9 @@ example1 = do
   drawCircle 2 2 3
   -- a bunch of rectangles
   keepState $
-    foreach [1 .. 5] $ \ _ ->
-        do drawRectangle 0 1 2 3
-           C.rotate (pi/8)
+    replicateM_ 5 $ do
+        drawRectangle 0 1 2 3
+        C.rotate (pi/8)
   -- some cute stuff
   thought
   apple
