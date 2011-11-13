@@ -51,37 +51,37 @@ main = do
   window <- get G.castToWindow "window1"
 
   -- set up File->New
-  new1 <- get G.castToMenuItem "new1"
-  _ <- G.onActivateLeaf new1 $ myNew
+  new1 <- get G.castToAction "new1"
+  _ <- G.onActionActivate new1 $ myNew
 
   -- set up the File->Open dialog
-  open1 <- get G.castToMenuItem "open1"
+  open1 <- get G.castToAction "open1"
   openDialog <- get G.castToFileChooserDialog "opendialog"
-  _ <- G.onActivateLeaf open1 $ G.widgetShow openDialog
+  _ <- G.onActionActivate open1 $ G.widgetShow openDialog
   _ <- G.onResponse openDialog $ myFileOpen openDialog
 
   -- set up the File->Save_As dialog
-  save1 <- get G.castToMenuItem "save1"
-  save_as1 <- get G.castToMenuItem "save_as1"
+  save1 <- get G.castToAction "save1"
+  save_as1 <- get G.castToAction "save_as1"
   saveDialog <- get G.castToFileChooserDialog "savedialog"
-  _ <- G.onActivateLeaf save_as1 $ G.widgetShow saveDialog
-  _ <- G.onActivateLeaf save1 $ G.widgetShow saveDialog
+  _ <- G.onActionActivate save_as1 $ G.widgetShow saveDialog
+  _ <- G.onActionActivate save1 $ G.widgetShow saveDialog
   _ <- G.onResponse saveDialog $ myFileSave saveDialog
 
   -- set up Edit menu
-  cut1 <- get G.castToMenuItem "cut1"
-  _ <- G.onActivateLeaf cut1 $ myCut
-  copy1 <- get G.castToMenuItem "copy1"
-  _ <- G.onActivateLeaf copy1 $ myCopy
-  paste1 <- get G.castToMenuItem "paste1"
-  _ <- G.onActivateLeaf paste1 $ myPaste
-  delete1 <- get G.castToMenuItem "delete1"
-  _ <- G.onActivateLeaf delete1 $ myDelete
+  cut1 <- get G.castToAction "cut1"
+  _ <- G.onActionActivate cut1 $ myCut
+  copy1 <- get G.castToAction "copy1"
+  _ <- G.onActionActivate copy1 $ myCopy
+  paste1 <- get G.castToAction "paste1"
+  _ <- G.onActionActivate paste1 $ myPaste
+  delete1 <- get G.castToAction "delete1"
+  _ <- G.onActionActivate delete1 $ myDelete
 
   -- set up the Help->About dialog
-  about1 <- get G.castToMenuItem "about1"
+  about1 <- get G.castToAction "about1"
   aboutdialog1 <- get G.castToAboutDialog "aboutdialog1"
-  _ <- G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
+  _ <- G.onActionActivate about1 $ G.widgetShow aboutdialog1
   _ <- G.onResponse aboutdialog1 $ const $ G.widgetHide aboutdialog1
 
   -- fix size
@@ -89,8 +89,8 @@ main = do
   G.widgetSetSizeRequest window windowWidth windowHeight
 
   -- quit on File->Quit menu selection
-  quit1 <- get G.castToMenuItem "quit1"
-  _ <- G.onActivateLeaf quit1 $ G.widgetDestroy window
+  quit1 <- get G.castToAction "quit1"
+  _ <- G.onActionActivate quit1 $ G.widgetDestroy window
   _ <- G.onDestroy window G.mainQuit
 
   -- set up the canvas
