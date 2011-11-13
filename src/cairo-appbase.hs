@@ -27,8 +27,9 @@ writePng =
         height = windowHeight
 
 -- Display image in window
+main :: IO ()
 main = do
-  G.initGUI
+  _ <- G.initGUI
 
   -- load up the glade file
   filename <- My.getDataFileName "data/main.glade"
@@ -44,37 +45,37 @@ main = do
 
   -- set up File->New
   new1 <- get G.castToMenuItem "new1"
-  G.onActivateLeaf new1 $ myNew
+  _ <- G.onActivateLeaf new1 $ myNew
 
   -- set up the File->Open dialog
   open1 <- get G.castToMenuItem "open1"
   openDialog <- get G.castToFileChooserDialog "opendialog"
-  G.onActivateLeaf open1 $ G.widgetShow openDialog
-  G.onResponse openDialog $ myFileOpen openDialog
+  _ <- G.onActivateLeaf open1 $ G.widgetShow openDialog
+  _ <- G.onResponse openDialog $ myFileOpen openDialog
 
   -- set up the File->Save_As dialog
   save1 <- get G.castToMenuItem "save1"
   save_as1 <- get G.castToMenuItem "save_as1"
   saveDialog <- get G.castToFileChooserDialog "savedialog"
-  G.onActivateLeaf save_as1 $ G.widgetShow saveDialog
-  G.onActivateLeaf save1 $ G.widgetShow saveDialog
-  G.onResponse saveDialog $ myFileSave saveDialog
+  _ <- G.onActivateLeaf save_as1 $ G.widgetShow saveDialog
+  _ <- G.onActivateLeaf save1 $ G.widgetShow saveDialog
+  _ <- G.onResponse saveDialog $ myFileSave saveDialog
 
   -- set up Edit menu
   cut1 <- get G.castToMenuItem "cut1"
-  G.onActivateLeaf cut1 $ myCut
+  _ <- G.onActivateLeaf cut1 $ myCut
   copy1 <- get G.castToMenuItem "copy1"
-  G.onActivateLeaf copy1 $ myCopy
+  _ <- G.onActivateLeaf copy1 $ myCopy
   paste1 <- get G.castToMenuItem "paste1"
-  G.onActivateLeaf paste1 $ myPaste
+  _ <- G.onActivateLeaf paste1 $ myPaste
   delete1 <- get G.castToMenuItem "delete1"
-  G.onActivateLeaf delete1 $ myDelete
+  _ <- G.onActivateLeaf delete1 $ myDelete
 
   -- set up the Help->About dialog
   about1 <- get G.castToMenuItem "about1"
   aboutdialog1 <- get G.castToAboutDialog "aboutdialog1"
-  G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
-  G.onResponse aboutdialog1 $ const $ G.widgetHide aboutdialog1
+  _ <- G.onActivateLeaf about1 $ G.widgetShow aboutdialog1
+  _ <- G.onResponse aboutdialog1 $ const $ G.widgetHide aboutdialog1
 
   -- fix size
   --   G.windowSetResizable window False
@@ -82,12 +83,12 @@ main = do
 
   -- quit on File->Quit menu selection
   quit1 <- get G.castToMenuItem "quit1"
-  G.onActivateLeaf quit1 $ G.widgetDestroy window
-  G.onDestroy window G.mainQuit
+  _ <- G.onActivateLeaf quit1 $ G.widgetDestroy window
+  _ <- G.onDestroy window G.mainQuit
 
   -- set up the canvas
   canvas <- get G.castToDrawingArea "drawingarea1"
-  G.onExpose canvas $ const (updateCanvas canvas)
+  _ <- G.onExpose canvas $ const (updateCanvas canvas)
   G.widgetShowAll window
   G.mainGUI
 
@@ -102,6 +103,7 @@ myFileOpen fcdialog response = do
     G.ResponseCancel -> putStrLn "Cancelled!"
     G.ResponseDeleteEvent -> putStrLn "FileChooserDialog Deleted!"
     G.ResponseClose -> putStrLn "Closed!"
+    _ -> return ()
   G.widgetHide fcdialog
 
 myFileSave :: G.FileChooserDialog -> G.ResponseId -> IO ()
@@ -132,24 +134,29 @@ updateCanvas canvas = do
 foreach :: (Monad m) => [a] -> (a -> m b) -> m [b]
 foreach = flip mapM
 
+keepState :: C.Render t -> C.Render ()
 keepState render = do
   C.save
-  render
+  _ <- render
   C.restore
 
+drawCircle :: Double -> Double -> Double -> C.Render ()
 drawCircle x y r = do
   C.arc x y r 0 (2 * pi)
   fillStroke
 
+drawRectangle :: Double -> Double -> Double -> Double -> C.Render ()
 drawRectangle x y w h = do
   C.rectangle x y w h
   fillStroke
 
+stroke :: C.Render ()
 stroke =
   keepState $ do
   C.setSourceRGBA 0 0 0 0.7
   C.stroke
 
+fillStroke :: C.Render ()
 fillStroke = do
   C.fillPreserve
   stroke
@@ -158,11 +165,13 @@ fillStroke = do
 
 -- Example
 
+example :: Int -> Int -> C.Render ()
 example width height = do
   prologue width height
   example1
 
 -- Set up stuff
+prologue :: Int -> Int -> C.Render ()
 prologue wWidth wHeight = do
   let width   = 10
       height  = 10
@@ -191,6 +200,7 @@ prologue wWidth wHeight = do
 
 
 -- Grid and axes
+grid :: Double -> Double -> Double -> Double -> C.Render ()
 grid xmin xmax ymin ymax =
   keepState $ do
   C.setSourceRGBA 0 0 0 0.7
@@ -204,6 +214,7 @@ grid xmin xmax ymin ymax =
          C.lineTo x ymax
          C.stroke
 
+example1 :: C.Render ()
 example1 = do
   -- circles
   drawCircle 0 0 1
@@ -218,6 +229,7 @@ example1 = do
   apple
   snake
 
+thought :: C.Render ()
 thought =
   keepState $ do
   C.scale 0.04 0.04
@@ -274,6 +286,7 @@ thought =
         c 146 424 144 422 143 422
         z
 
+apple :: C.Render ()
 apple =
   keepState $ do
   C.scale 0.05 0.05
@@ -309,6 +322,7 @@ apple =
         c 1153 249 1152 249 1151 249
         z
 
+snake :: C.Render ()
 snake =
   keepState $ do
   C.scale 0.04 0.04
