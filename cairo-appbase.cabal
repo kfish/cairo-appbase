@@ -61,14 +61,13 @@ Maintainer:          conrad@metadecks.org
 
 Cabal-Version:       >= 1.8
 Build-type:          Simple
+Data-Files:          data/main.glade
 
 Executable cairo-appbase
   Main-Is:             cairo-appbase.hs
   Hs-Source-Dirs:      src
   ghc-options:         -Wall -fglasgow-exts -O2 -funbox-strict-fields 
   Build-Depends:       base, glib, gtk, glade, cairo
-  Build-Type:          Simple
-  Data-Files:          data/main.glade
 
 ------------------------------------------------------------------------
 -- Git repo
