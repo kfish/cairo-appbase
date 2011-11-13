@@ -123,8 +123,8 @@ myDelete = putStrLn "Delete"
 
 updateCanvas :: G.DrawingArea -> IO Bool
 updateCanvas canvas = do
-  win <- G.drawingAreaGetDrawWindow canvas
-  (width, height) <- G.drawingAreaGetSize canvas
+  win <- G.widgetGetDrawWindow canvas
+  (width, height) <- G.widgetGetSize canvas
   G.renderWithDrawable win $
       example width height
   return True
