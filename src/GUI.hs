@@ -7,6 +7,10 @@
 -- This code is in the public domain.
 --
 
+module GUI (
+    guiMain
+) where
+
 import Control.Monad (replicateM_)
 import qualified Graphics.UI.Gtk as G
 import qualified Graphics.Rendering.Cairo as C
@@ -28,8 +32,8 @@ _writePng =
         height = windowHeight
 
 -- Display image in window
-main :: IO ()
-main = do
+guiMain :: IO ()
+guiMain = do
   _ <- G.initGUI
 
   -- load up the gtk-builder file
