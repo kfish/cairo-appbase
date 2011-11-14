@@ -2,7 +2,7 @@ Name:                cairo-appbase
 
 Version:             0.3
 
-Synopsis:            A template for building new GUI applications using GTK, Glade and Cairo.
+Synopsis:            A template for building new GUI applications using GTK and Cairo.
 
 Description:
     This template includes working callbacks to handle the File and Help
@@ -18,12 +18,12 @@ Description:
     >   git clone git://github.com/kfish/cairo-appbase.git
     .
     To add widgets, install glade from your distro system and run
-    @glade data/main.glade@
+    @glade data/main.ui@. Save the resulting file in GtkBuilder format.
     .
-    Note that you must run @cabal install@ to put the glade file in the correct
+    Note that you must run @cabal install@ to put the UI file in the correct
     place for your application to pick it up. To modify the code, edit
     @src/cairo-appbase.hs@. Hooking up functions to widgets is very simple: get
-    a widget by name (which you set in glade file), and hook one of its
+    a widget by name (which you set in ui file), and hook one of its
     signals (which you found in the Signals tab in glade) to an @IO ()@ action:
     .
     > cut1 <- get G.castToMenuItem "cut1"
