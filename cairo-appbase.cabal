@@ -1,6 +1,6 @@
 Name:                cairo-appbase
 
-Version:             0.3
+Version:             0.4
 
 Synopsis:            A template for building new GUI applications using GTK and Cairo.
 
