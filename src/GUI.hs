@@ -11,7 +11,7 @@ module GUI (
     guiMain
 ) where
 
-import Control.Concurrent.Chan
+import Control.Concurrent
 import Control.Monad (replicateM_)
 import qualified Graphics.UI.Gtk as G
 import qualified Graphics.Rendering.Cairo as C
@@ -33,7 +33,7 @@ _writePng =
         height = windowHeight
 
 -- Display image in window
-guiMain :: IO ()
+guiMain :: Chan String -> IO ()
 guiMain chan = do
   _ <- G.initGUI
 
