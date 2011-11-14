@@ -1,3 +1,5 @@
+{-# OPTIONS -Wall #-}
+
 module Main where
 
 import Control.Concurrent.Chan
@@ -6,11 +8,15 @@ import Control.Monad (when)
 import Children
 import GUI
 
+main :: IO ()
 main = later waitForChildren $ do
     chan <- newChan
-    forkChild (guiMain chan)
+    _ <- forkChild (guiMain chan)
     monitor chan
+    where
+        later x y = y >> x
 
+monitor :: Chan String -> IO()
 monitor chan = do
     x <- readChan chan
     putStrLn $ "Received message: " ++ x

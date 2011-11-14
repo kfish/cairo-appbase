@@ -1,7 +1,8 @@
+{-# OPTIONS -Wall #-}
+
 module Children where
 
 import Control.Concurrent
-import Control.Concurrent.MVar
 import Control.Exception (finally)
 
 import System.IO.Unsafe (unsafePerformIO)
@@ -25,5 +26,3 @@ forkChild io = do
     childs <- takeMVar children
     putMVar children (mvar:childs)
     forkIO (io `finally` putMVar mvar ())
-
-later x y = y >> x
